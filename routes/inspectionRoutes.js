@@ -110,5 +110,5 @@ router.get("/my-profile", allowInspector, wrap(getInspectorProfile));
 
 router.get("/", allowInspectorOrAdmin, wrap(getInspections));
 
-router.get("/inspection/:id", allowInspectorOrAdmin, wrap(getInspectionById));
+router.get("/:id", allowInspectorOrAdmin, wrap(getInspectionById));
 module.exports = router;
