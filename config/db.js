@@ -4,7 +4,7 @@ const mysql = require("mysql2/promise");
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT) || 3306,
+  port: Number(process.env.DB_PORT),
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
@@ -14,22 +14,18 @@ const pool = mysql.createPool({
   queueLimit: 0,
 
   connectTimeout: 60000,
-  enableKeepAlive: true,
-  keepAliveInitialDelay: 0,
+
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 (async () => {
   try {
     const conn = await pool.getConnection();
-
     console.log("✅ MySQL Connected");
-    console.log(`Host: ${process.env.DB_HOST}`);
-    console.log(`Port: ${process.env.DB_PORT}`);
-    console.log(`Database: ${process.env.DB_NAME}`);
-
     conn.release();
   } catch (err) {
-    console.error("❌ Database Connection Failed");
     console.error(err);
   }
 })();
